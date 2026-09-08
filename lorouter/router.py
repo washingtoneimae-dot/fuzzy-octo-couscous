@@ -39,6 +39,8 @@ class Adapter:
 
     def claims(self, X):
         """P(this input belongs to my domain), per the specialist model."""
+        if self.embed is None:
+            raise ValueError(f"Adapter '{self.name}' requires an embedding function before computing claims.")
         return self.model.predict_proba(self.embed(X))[:, 1]
 
     def calibrate(self, calib_by_domain, dims):
